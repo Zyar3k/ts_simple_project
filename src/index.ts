@@ -1,4 +1,12 @@
+import BasketStorage from './BasketStorage/BasketStorage';
 import './global-styles.scss';
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface Window {
+    basket: BasketStorage;
+  }
+}
 
 const redirectFunction = (location: string): void => {
   window.location.hash = `#/${location}`;
@@ -15,5 +23,9 @@ const backendButton = document.getElementById('be-button');
 if (backendButton) {
   backendButton.addEventListener('click', () => redirectFunction('backend'));
 }
+
+const storage = new BasketStorage();
+
+window.basket = storage;
 
 export {};

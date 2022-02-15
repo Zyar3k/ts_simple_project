@@ -388,7 +388,7 @@ module.exports = {
         ignoredNodes: ['ConditionalExpression'],
       },
     ],
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': ['error', 'windows'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'no-trailing-spaces': 'error',
