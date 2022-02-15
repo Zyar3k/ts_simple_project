@@ -1,5 +1,6 @@
 import BasketStorage from './BasketStorage/BasketStorage';
 import './global-styles.scss';
+import Router from './Router/Router';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -25,6 +26,10 @@ if (backendButton) {
 }
 
 const storage = new BasketStorage();
+const router = new Router();
+
+router.addRoute({ name: 'frontend', renderFunction: () => console.log('frontend route') });
+router.addRoute({ name: 'backend', renderFunction: () => console.log('backend route') });
 
 window.basket = storage;
 
