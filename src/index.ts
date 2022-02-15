@@ -1,3 +1,4 @@
+import Basket from './Basket/Basket';
 import BasketStorage from './BasketStorage/BasketStorage';
 import './global-styles.scss';
 import Router from './Router/Router';
@@ -27,9 +28,7 @@ if (backendButton) {
 
 const storage = new BasketStorage();
 const router = new Router();
-
-router.addRoute({ name: 'frontend', renderFunction: () => console.log('frontend route') });
-router.addRoute({ name: 'backend', renderFunction: () => console.log('backend route') });
+const basket = new Basket('basket', storage);
 
 window.basket = storage;
 
