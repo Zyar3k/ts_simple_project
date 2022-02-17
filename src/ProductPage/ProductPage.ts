@@ -14,11 +14,11 @@ abstract class ProductPage<T extends Product> {
   ) {
     const containerElement = document.getElementById(containerId);
 
-    if (!containerId) {
-      return;
-    } else {
-      console.warn('Basket element not found');
-    }
+    // if (!containerId) {
+    //   return;
+    // } else {
+    //   console.warn('Basket element not found');
+    // }
 
     this.router.addRoute({ name: listingName, renderFunction: this.render });
     this.rootElement = containerElement as HTMLDivElement;

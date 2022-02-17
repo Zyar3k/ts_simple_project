@@ -1,14 +1,9 @@
+import BackendBooksPage from './BackendBooksPage/BackendBooksPage';
 import Basket from './Basket/Basket';
 import BasketStorage from './BasketStorage/BasketStorage';
+import FrontendBooksPage from './FrontendBooksPage/FrontendBooksPage';
 import './global-styles.scss';
-// import Router from './Router/Router';
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-  interface Window {
-    basket: BasketStorage;
-  }
-}
+import Router from './Router/Router';
 
 const redirectFunction = (location: string): void => {
   window.location.hash = `#/${location}`;
@@ -27,11 +22,10 @@ if (backendButton) {
 }
 
 const storage = new BasketStorage();
-// const router = new Router();
+const router = new Router();
 const basket = new Basket('basket', storage);
 
-basket.addToBasket({ id: '1', name: 'Product', price: 15, quantity: 5 });
-
-window.basket = storage;
+new FrontendBooksPage('listing-page', 'frontend', router, basket);
+new BackendBooksPage('listing-page', 'backend', router, basket);
 
 export {};

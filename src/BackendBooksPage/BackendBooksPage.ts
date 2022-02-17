@@ -1,23 +1,24 @@
 import Router from '../Router/Router';
 import ProductPage from '../ProductPage/ProductPage';
+import BackendBook from '../ProductTypes/BackendBook';
 import Basket from '../Basket/Basket';
-import FrontendBook from '../ProductTypes/FrontendBook';
 
-class FrontendBooksPage extends ProductPage<FrontendBook> {
-  protected readonly products: FrontendBook[] = [
-    { id: 'fe-001', name: 'Frontend Book 1', price: 15 },
-    { id: 'fe-002', name: 'Frontend Book 2', price: 25 },
-    { id: 'fe-003', name: 'Frontend Book 3', price: 35 },
+class BackendBooksPage extends ProductPage<BackendBook> {
+  protected readonly products: BackendBook[] = [
+    { backendLanguage: 'Python', id: 'be-001', name: 'Backend Book 1', price: 15 },
+    { backendLanguage: 'Ruby', id: 'be-002', name: 'Backend Book 2', price: 25 },
+    { backendLanguage: 'Python', id: 'be-003', name: 'Backend Book 3', price: 35 },
   ];
 
   public constructor(containerId: string, listingName: string, router: Router, basket: Basket) {
     super(containerId, listingName, router, basket);
   }
 
-  protected productTemplate = ({ id, name, price }: FrontendBook): HTMLElement => {
+  protected productTemplate = ({ backendLanguage, id, name, price }: BackendBook): HTMLElement => {
     const element = document.createElement('article');
     const titleElement = document.createElement('p');
     const priceElement = document.createElement('p');
+    const languageElement = document.createElement('p');
     const formElement = document.createElement('form');
 
     formElement.innerHTML = `
@@ -30,7 +31,7 @@ class FrontendBooksPage extends ProductPage<FrontendBook> {
     titleElement.textContent = name;
     // eslint-disable-next-line no-magic-numbers
     priceElement.textContent = `${price.toFixed(2)}$`;
-
+    languageElement.textContent = backendLanguage;
     formElement.addEventListener('submit', () => {
       const input = formElement.querySelector(`#product-${id}`) as HTMLInputElement;
       const quantity = Number(input.value);
@@ -41,8 +42,9 @@ class FrontendBooksPage extends ProductPage<FrontendBook> {
     element.appendChild(titleElement);
     element.appendChild(priceElement);
     element.appendChild(formElement);
+    element.appendChild(languageElement);
     return element;
   };
 }
 
-export default FrontendBooksPage;
+export default BackendBooksPage;
