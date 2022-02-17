@@ -1,7 +1,7 @@
 import Basket from './Basket/Basket';
 import BasketStorage from './BasketStorage/BasketStorage';
 import './global-styles.scss';
-import Router from './Router/Router';
+// import Router from './Router/Router';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -27,8 +27,10 @@ if (backendButton) {
 }
 
 const storage = new BasketStorage();
-const router = new Router();
+// const router = new Router();
 const basket = new Basket('basket', storage);
+
+basket.addToBasket({ id: '1', name: 'Product', price: 15, quantity: 5 });
 
 window.basket = storage;
 

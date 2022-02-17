@@ -28,7 +28,52 @@ class Basket {
     throw new Error('Basket element not found');
   }
 
-  attachBasketToDOM(): void {
+  public addToBasket(product: BasketProduct): void {
+    if (this.isProductAlreadyInBasket(product.id)) {
+      this.changeProductQuantity(product.id, product.quantity);
+    } else {
+      this.products.push(product);
+      this.refreshBasketData();
+    }
+
+    this.storage.saveItems(this.products);
+  }
+
+  public increaseQuantity(productId: string): void {
+    this.changeProductQuantity(productId, 1);
+    this.storage.saveItems(this.products);
+  }
+  public decreaseQuantity(productId: string): void {
+    this.changeProductQuantity(productId, -1);
+    this.storage.saveItems(this.products);
+  }
+
+  private isProductAlreadyInBasket(productId: string): boolean {
+    return this.products.some(product => product.id === productId);
+  }
+
+  private changeProductQuantity(productId: string, newQuantity: number): void {
+    let indexProductToRemove: number | null = null;
+
+    this.products.forEach((product, index) => {
+      if (product.id !== productId) {
+        return;
+      }
+
+      product.quantity += newQuantity;
+      if (product.quantity === 0) {
+        indexProductToRemove = index;
+      }
+    });
+
+    if (indexProductToRemove !== null) {
+      this.products.splice(indexProductToRemove, 1);
+    }
+
+    this.refreshBasketData();
+  }
+
+  private attachBasketToDOM(): void {
     this.rootElement.classList.add(Basket.BASKET_CLASS);
     this.appendBasketButton();
     this.appendBasketPopup();
@@ -54,8 +99,28 @@ class Basket {
       this.basketProductList.firstChild.remove();
     }
 
-    // this.products.forEach(this.createListElement)
+    this.products.forEach(this.createListElement);
   }
+
+  private readonly createListElement = (product: BasketProduct): void => {
+    const listElement = document.createElement('li');
+    const productInfoElement = document.createElement('p');
+    const increaseButton = document.createElement('button');
+    const decreaseButton = document.createElement('button');
+
+    productInfoElement.textContent = `${product.name} - ${product.price}: ${product.quantity}`;
+    increaseButton.textContent = '+';
+    decreaseButton.textContent = '-';
+
+    listElement.classList.add(Basket.PRODUCTS_LIST_ITEM_CLASS);
+    increaseButton.addEventListener('click', () => this.increaseQuantity(product.id));
+    decreaseButton.addEventListener('click', () => this.decreaseQuantity(product.id));
+
+    listElement.appendChild(productInfoElement);
+    listElement.appendChild(increaseButton);
+    listElement.appendChild(decreaseButton);
+    this.basketProductList.appendChild(listElement);
+  };
 
   private appendBasketPopup(): void {
     const popupContainer = document.createElement('div');
